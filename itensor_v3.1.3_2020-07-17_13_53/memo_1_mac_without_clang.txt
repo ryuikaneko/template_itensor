@@ -1,0 +1,14 @@
+2020-07-17 13:53 -0400 mtfishman                        [v3] {origin/v3} {origin/HEAD} Merge pull request #359 from ITensor/openmp_instructions
+
+## macports g++ without clang
+sudo port install lapack
+port select --list gcc
+sudo port select --set gcc mp-gcc9
+#sudo port select --set gcc mp-gcc10
+
+## GNU GCC compiler
+CCCOM=g++ -m64 -std=c++17 -fconcepts -fPIC
+
+## link macports blas lapack
+#BLAS_LAPACK_LIBFLAGS=-lpthread -L/usr/lib -lblas -llapack 
+BLAS_LAPACK_LIBFLAGS=-lpthread -L/opt/local/lib -lblas -llapack 

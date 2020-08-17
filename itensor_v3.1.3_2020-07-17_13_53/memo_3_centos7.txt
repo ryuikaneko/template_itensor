@@ -1,0 +1,8 @@
+CentOS Linux release 7.8.2003 (Core)
+
+#PLATFORM=macos
+#BLAS_LAPACK_LIBFLAGS=-framework Accelerate
+
+PLATFORM=lapack
+#BLAS_LAPACK_LIBFLAGS=-lpthread -L/usr/lib -lblas -llapack
+BLAS_LAPACK_LIBFLAGS=-lpthread -L/usr/lib64 -lblas -llapack

@@ -1,0 +1,13 @@
+2020-07-17 13:53 -0400 mtfishman                        [v3] {origin/v3} {origin/HEAD} Merge pull request #359 from ITensor/openmp_instructions
+
+clang --version
+Apple LLVM version 10.0.0 (clang-1000.10.44.4)
+Target: x86_64-apple-darwin17.7.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+## with clang
+CCCOM=clang++ -std=c++17 -fPIC -Wno-gcc-compat
+
+PLATFORM=macos
+BLAS_LAPACK_LIBFLAGS=-framework Accelerate

@@ -1,0 +1,16 @@
+SUSE Linux Enterprise Server 12 SP3
+YITP
+
+## add symbolic links
+ln -svn /usr/lib64/libblas.so.3 ~/usr/lib64/libblas.so
+ln -svn /usr/lib64/liblapack.so.3 ~/usr/lib64/liblapack.so
+
+## modify make file
+#PLATFORM=macos
+#BLAS_LAPACK_LIBFLAGS=-framework Accelerate
+PLATFORM=lapack
+#BLAS_LAPACK_LIBFLAGS=-lpthread -L/usr/lib -lblas -llapack 
+BLAS_LAPACK_LIBFLAGS=-lpthread -L/usr/lib64 -L${HOME}/usr/lib64 -lblas -llapack
+
+## with gnu compiler
+module swap PrgEnv-cray PrgEnv-gnu
