@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
         auto mp = 0.5*elt(Cmp);
         auto zz = elt(Cz);
         auto SdS = zz+pm+mp;
-        printfln("# dimer_top %d %d %d %.10f %.10f %.10f %.10f",b1,b2,j-1,SdS,zz,pm,mp);
+        printfln("# dimer_top %d %d %d %.16f %.16f %.16f %.16f",b1,b2,j-1,SdS,zz,pm,mp);
         }
     println("\n");
 
@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
         auto mp = 0.5*elt(Cmp);
         auto zz = elt(Cz);
         auto SdS = zz+pm+mp;
-        printfln("# dimer_bottom %d %d %d %.10f %.10f %.10f %.10f",b1,b2,j-1,SdS,zz,pm,mp);
+        printfln("# dimer_bottom %d %d %d %.16f %.16f %.16f %.16f",b1,b2,j-1,SdS,zz,pm,mp);
         }
     println("\n");
 
