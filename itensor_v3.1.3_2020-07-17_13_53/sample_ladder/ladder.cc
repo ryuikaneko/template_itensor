@@ -103,6 +103,117 @@ int main(int argc, char* argv[])
         }
     println("\n");
 
+    // Measure S.S on every bond
+    println("## dimer_top b1 b2 num_from_left SS SzSz SpSm SmSp");
+    for(int j = 1; j < Nleg; ++j)
+        {
+        auto b1 = 2*(j-1) + 1;
+        auto b2 = b1 + 2;
+        auto Sp1op = op(sites,"S+",b1);
+        auto Sm1op = op(sites,"S-",b1);
+        auto Sz1op = op(sites,"Sz",b1);
+        auto Sp2op = op(sites,"S+",b2);
+        auto Sm2op = op(sites,"S-",b2);
+        auto Sz2op = op(sites,"Sz",b2);
+        psi.position(b1);
+        auto psidag = dag(psi);
+        psidag.prime("Link");
+        auto l1minus1 = leftLinkIndex(psi,b1);
+        auto Cpm = prime(psi(b1),l1minus1)*Sp1op;
+        auto Cmp = prime(psi(b1),l1minus1)*Sm1op;
+        auto Cz = prime(psi(b1),l1minus1)*Sz1op;
+        Cpm *= prime(psidag(b1),"Site");
+        Cmp *= prime(psidag(b1),"Site");
+        Cz *= prime(psidag(b1),"Site");
+        for(int k = b1+1; k < b2; ++k)
+            {
+            Cpm *= psi(k);
+            Cmp *= psi(k);
+            Cz *= psi(k);
+            Cpm *= psidag(k);
+            Cmp *= psidag(k);
+            Cz *= psidag(k);
+            }
+        auto l2 = rightLinkIndex(psi,b2);
+        Cpm *= prime(psi(b2),l2)*Sm2op;
+        Cmp *= prime(psi(b2),l2)*Sp2op;
+        Cz *= prime(psi(b2),l2)*Sz2op;
+        Cpm *= prime(psidag(b2),"Site");
+        Cmp *= prime(psidag(b2),"Site");
+        Cz *= prime(psidag(b2),"Site");
+        auto pm = 0.5*elt(Cpm);
+        auto mp = 0.5*elt(Cmp);
+        auto zz = elt(Cz);
+        auto SdS = zz+pm+mp;
+        printfln("# dimer_top %d %d %d %.10f %.10f %.10f %.10f",b1,b2,j-1,SdS,zz,pm,mp);
+        }
+    println("\n");
+
+    // Measure S.S on every bond
+    println("## dimer_bottom b1 b2 num_from_left SS SzSz SpSm SmSp");
+    for(int j = 1; j < Nleg; ++j)
+        {
+        auto b1 = 2*(j-1) + 2;
+        auto b2 = b1 + 2;
+        auto Sp1op = op(sites,"S+",b1);
+        auto Sm1op = op(sites,"S-",b1);
+        auto Sz1op = op(sites,"Sz",b1);
+        auto Sp2op = op(sites,"S+",b2);
+        auto Sm2op = op(sites,"S-",b2);
+        auto Sz2op = op(sites,"Sz",b2);
+        psi.position(b1);
+        auto psidag = dag(psi);
+        psidag.prime("Link");
+        auto l1minus1 = leftLinkIndex(psi,b1);
+        auto Cpm = prime(psi(b1),l1minus1)*Sp1op;
+        auto Cmp = prime(psi(b1),l1minus1)*Sm1op;
+        auto Cz = prime(psi(b1),l1minus1)*Sz1op;
+        Cpm *= prime(psidag(b1),"Site");
+        Cmp *= prime(psidag(b1),"Site");
+        Cz *= prime(psidag(b1),"Site");
+        for(int k = b1+1; k < b2; ++k)
+            {
+            Cpm *= psi(k);
+            Cmp *= psi(k);
+            Cz *= psi(k);
+            Cpm *= psidag(k);
+            Cmp *= psidag(k);
+            Cz *= psidag(k);
+            }
+        auto l2 = rightLinkIndex(psi,b2);
+        Cpm *= prime(psi(b2),l2)*Sm2op;
+        Cmp *= prime(psi(b2),l2)*Sp2op;
+        Cz *= prime(psi(b2),l2)*Sz2op;
+        Cpm *= prime(psidag(b2),"Site");
+        Cmp *= prime(psidag(b2),"Site");
+        Cz *= prime(psidag(b2),"Site");
+        auto pm = 0.5*elt(Cpm);
+        auto mp = 0.5*elt(Cmp);
+        auto zz = elt(Cz);
+        auto SdS = zz+pm+mp;
+        printfln("# dimer_bottom %d %d %d %.10f %.10f %.10f %.10f",b1,b2,j-1,SdS,zz,pm,mp);
+        }
+    println("\n");
+
+   // Measure S.S on every bond
+    println("## dimer_rung b1 b2 num_from_left SS SzSz SpSm SmSp");
+    for(int j = 1; j <= Nleg; ++j)
+        {
+        auto b = 2*(j-1) + 1;
+        psi.position(b);
+        auto bondket = psi(b)*psi(b+1);
+        auto bondbra = dag(prime(bondket,"Site"));
+        auto zzop = op(sites,"Sz",b)*op(sites,"Sz",b+1);
+        auto pmop = 0.5*op(sites,"S+",b)*op(sites,"S-",b+1);
+        auto mpop = 0.5*op(sites,"S-",b)*op(sites,"S+",b+1);
+        auto zz = elt(bondbra*zzop*bondket);
+        auto pm = elt(bondbra*pmop*bondket);
+        auto mp = elt(bondbra*mpop*bondket);
+        auto SdS = zz+pm+mp;
+        printfln("# dimer_rung %d %d %d %.16f %.16f %.16f %.16f",b,b+1,j-1,SdS,zz,pm,mp);
+        }
+    println("\n");
+
     println("\n");
     printfln("# N,ene,ene/N,mag/N,stagmag/N %4d %.16f %.16f %.16f %.16f",N,energy,energy/N,avemz/N,avestagmz/N);
     println("\n");
